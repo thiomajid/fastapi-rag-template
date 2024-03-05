@@ -1,11 +1,16 @@
+version: "0.1"
 services:
   server:
     build:
       context: .
     ports:
       - 8000:8000
-    networks:
-      - rag-network
+    expose:
+      - 8000
+    environment:
+      - HF_TOKEN=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
+      - DB_URL=postgresql://postgres:postgres@db:5432/example
+      - DATA_URL=thiomajid/clarins-test
     depends_on:
       db:
         condition: service_healthy
@@ -19,10 +24,6 @@ services:
       - POSTGRES_DB=example
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-    networks:
-      - rag-network
-    ports:
-      - 5432:5432
     expose:
       - 5432
     healthcheck:
@@ -32,5 +33,3 @@ services:
       retries: 5
 volumes:
   db-data:
-networks:
-  rag-network:
