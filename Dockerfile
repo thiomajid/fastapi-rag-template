@@ -12,7 +12,7 @@ FROM python:${PYTHON_VERSION} as base
 # Prevents Python from writing pyc files.
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV HF_TOKEN="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"
-ENV DB_URL="postgresql://postgres:postgres@db:5432/example"
+ENV DB_URL="postgresql://postgres:postgres@localhost:5432/example"
 ENV DATA_URL="thiomajid/clarins-test"
 
 # Keeps Python from buffering stdout and stderr to avoid situations where
