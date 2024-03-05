@@ -1,7 +1,7 @@
 import gradio as gr
 
-# from app.embeddings import create_embeddings
-# from app.query_engine import model_pipeline
+from app.embeddings import create_embeddings
+from app.query_engine import model_pipeline
 
 with gr.Blocks() as demo:
     gr.Markdown("# Clarins chatbot demo")
@@ -14,11 +14,11 @@ with gr.Blocks() as demo:
             output = gr.Textbox(label="Output", lines=10)
 
     event = run_query_btn.click(
-        lambda x: x,
+        model_pipeline,
         inputs=[question],
         outputs=[output],
     )
-    # embedding_btn.click(create_embeddings)
+    embedding_btn.click(create_embeddings)
 
 
 demo.launch(server_port=8000)
