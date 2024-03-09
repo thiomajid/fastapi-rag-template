@@ -1,5 +1,28 @@
 version: "0.1"
 services:
+  db:
+    image: postgres:14
+    restart: always
+    user: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data/pgdata
+    environment:
+      - POSTGRES_DB=example
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    ports:
+      - 5432:5432
+    expose:
+      - 5432
+    networks:
+      - default
+      - rag-network
+    # healthcheck:
+    #   test: ["CMD", "pg_isready"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 5
   server:
     build:
       context: .
@@ -8,28 +31,15 @@ services:
     expose:
       - 8000
     environment:
-      - HF_TOKEN=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
       - DB_URL=postgresql://postgres:postgres@db:5432/example
       - DATA_URL=thiomajid/clarins-test
     depends_on:
-      db:
-        condition: service_healthy
-  db:
-    image: postgres
-    restart: always
-    user: postgres
-    volumes:
-      - db-data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=example
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    expose:
-      - 5432
-    healthcheck:
-      test: ["CMD", "pg_isready"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      - db
+    networks:
+      - default
+      - rag-network
 volumes:
   db-data:
+networks:
+  rag-network:
+    external: true
