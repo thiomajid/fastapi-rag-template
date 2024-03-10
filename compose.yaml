@@ -10,7 +10,7 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_HOST_AUTH_METHOD=trust
     networks:
-      - default
+      - rag-net
     ports:
       - "5432:5432"
   server:
@@ -24,6 +24,9 @@ services:
     depends_on:
       - db
     networks:
-      - default
+      - rag-net
 volumes:
   db-data:
+networks:
+  rag-net:
+    driver: bridge
