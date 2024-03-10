@@ -1,3 +1,5 @@
+import logging
+
 import psycopg2
 import torch
 from llama_index.core import PromptTemplate, Settings, StorageContext
@@ -7,9 +9,14 @@ from llama_index.vector_stores.postgres import PGVectorStore
 from sqlalchemy import make_url
 from transformers import BitsAndBytesConfig
 
-from .config import CONNECTION_STRING, DB_NAME, HF_TOKEN, TABLE_NAME
+from .config import DB_NAME, DB_URL, HF_TOKEN, TABLE_NAME
 
-db_connection = psycopg2.connect(CONNECTION_STRING)
+logger = logging.getLogger(__name__)
+logger.addHandler(logging.StreamHandler())
+
+logger.info(f"Initializing the datastore module with DB_URL: {DB_URL}")
+
+db_connection = psycopg2.connect(DB_URL)
 db_connection.autocommit = True
 
 
@@ -33,7 +40,7 @@ llama = HuggingFaceLLM(
 Settings.llm = llama
 Settings.embed_model = HuggingFaceEmbedding(model_name="BAAI/bge-small-en-v1.5")
 
-url = make_url(CONNECTION_STRING)
+url = make_url(DB_URL)
 
 
 vector_store = PGVectorStore.from_params(
