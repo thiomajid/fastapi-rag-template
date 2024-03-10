@@ -17,7 +17,7 @@ logger.addHandler(logging.StreamHandler())
 logger.info(f"Initializing the datastore module with DB_URL: {DB_URL}")
 
 db_connection = psycopg2.connect(
-    host="127.0.0.1",
+    host="172.17.0.1",
     database=DB_NAME,
     user="postgres",
     password="postgres",
