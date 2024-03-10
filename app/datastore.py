@@ -23,6 +23,7 @@ db_connection = psycopg2.connect(
     password="postgres",
     port=5432,
 )
+
 db_connection.autocommit = True
 
 
