@@ -1,15 +1,10 @@
-version: "0.1"
+version: "3"
 services:
-  db:
+  postgres-db:
     image: postgres:14
     restart: always
     volumes:
       - db-data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://db:5432/healthz"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
     environment:
       - POSTGRES_DB=example
       - POSTGRES_USER=postgres
@@ -17,18 +12,16 @@ services:
       - POSTGRES_HOST_AUTH_METHOD=trust
     networks:
       - rag-net
-    ports:
-      - 5432:5432
   server:
     build:
       context: .
     ports:
       - 8000:8000
     environment:
-      - DB_URL=postgresql://postgres:postgres@db:5432/example
+      - DB_URL=postgresql://postgres:postgres@postgres-db:5432/example
       - DATA_URL=thiomajid/clarins-test
     depends_on:
-      - db
+      - postgres-db
     networks:
       - rag-net
 volumes:
