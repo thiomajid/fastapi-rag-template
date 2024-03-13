@@ -1,28 +1,28 @@
-import gradio as gr
+import datetime
 
-from app.embeddings import create_embeddings
-from app.query_engine import model_pipeline
+import uvicorn
+from fastapi import FastAPI
 
-with gr.Blocks() as demo:
-    gr.Markdown("# Clarins chatbot demo")
-    with gr.Row():
-        with gr.Column() as col:
-            question = gr.Textbox(label="Votre question", lines=7)
-            run_query_btn = gr.Button(variant="primary", value="Chercher")
-            embedding_btn = gr.Button(value="Create embeddings")
-        with gr.Column():
-            output = gr.Textbox(label="Output", lines=10)
+# from app.embeddings import create_embeddings
+# from app.query_engine import model_pipeline
+from app.data_model import LmResponse, UserQuery
 
-    event = run_query_btn.click(
-        model_pipeline,
-        inputs=[question],
-        outputs=[output],
+app = FastAPI()
+
+
+@app.get("/")
+def healthcheck():
+    return {"message": "Hello World!"}
+
+
+@app.post("/query")
+def query_index(data: UserQuery) -> LmResponse:
+
+    return LmResponse(
+        message="Hello from Llama 2",
+        sent_at=datetime.datetime.now(),
     )
-    embedding_btn.click(create_embeddings)
 
 
-demo.launch(
-    server_name="0.0.0.0",
-    server_port=8000,
-    share=True,
-)
+if __name__ == "__main__":
+    uvicorn.run(app)
