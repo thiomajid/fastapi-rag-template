@@ -37,5 +37,5 @@ def healthcheck():
 
 
 @app.post("/query")
-def query_index(data: UserQuery):
+def query_index(data: dict):
     return {"response": "Hello from Llama 2", "input": data}
