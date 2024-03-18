@@ -45,7 +45,7 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 COPY . .
 
 # Expose the port that the application listens on.
-EXPOSE 8000
+EXPOSE 8300
 
 # Run the application.
-CMD python 'main.py'
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8300"]
