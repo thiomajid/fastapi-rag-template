@@ -17,8 +17,7 @@ def healthcheck():
 
 @app.post("/query")
 def query_index(data: UserQuery):
-
-    return {"response": "Hello from Llama 2"}
+    return {"response": "Hello from Llama 2", "input": data.message}
 
 
 if __name__ == "__main__":
