@@ -16,9 +16,10 @@ def healthcheck():
 
 
 @app.post("/query")
-def query_index(data: UserQuery) -> LmResponse:
+def query_index(data: UserQuery):
 
-    return LmResponse(
-        message="Hello from Llama 2",
-        sent_at=datetime.datetime.now(),
-    )
+    return {"response": "Hello from Llama 2"}
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8300)

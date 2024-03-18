@@ -10,7 +10,6 @@ class UserQuery(BaseModel):
 
     conversationId: int
     message: str
-    sentDateTime: datetime.datetime
 
 
 class LmResponse(BaseModel):
