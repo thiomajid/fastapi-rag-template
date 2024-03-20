@@ -1,7 +1,3 @@
-import datetime
-import logging
-
-import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -10,11 +6,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.data_model import LmResponse, UserQuery
 
 app = FastAPI()
-_logger = logging.getLogger(__name__)
-_logger.addHandler(logging.StreamHandler())
 
 
 ALLOWED_ORIGINS = ["*"]
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,

@@ -19,7 +19,7 @@ services:
       - 8000:8300
     environment:
       - DB_URL=postgresql://postgres:postgres@postgres-db:5432/example
-      - DATA_URL=thiomajid/clarins-test
+      - DATA_URL=thiomajid/data-horizon-test
     depends_on:
       - postgres-db
     networks:
